@@ -5,30 +5,26 @@ using MandarinLearner.ViewModel.RelayCommands;
 
 namespace MandarinLearner.ViewModel
 {
-    public sealed class LearnerViewModel : ViewModel
+    public sealed class LearnerViewModel : LearnerModeViewModel
     {
-        readonly PhraseRepository phraseRepository = new PhraseRepository();
+        private string continueLabel;
 
         private Phrase currentPhrase;
 
         private bool isCheckEnglishOption;
+        private Points points = new Points();
 
         private string updatedEnglishAnswer = string.Empty;
-        private Points points = new Points();
-        private string continueLabel;
-
-        public event EventHandler<bool> CheckboxChanged; 
 
         public LearnerViewModel()
         {
-            phraseRepository.LoadAll();
+            // CsvImporter importer = new CsvImporter();
+            // importer.ImportHskFormat("E:\\Ed\\Documents\\Repositories\\MandarinLearner\\MandarinLearner.ViewModel\\MandarinLearner.ViewModel\\bin\\Debug\\HSK6.csv");
             TryGenerateNextPhrase();
             UpdateContinueLabel();
         }
-        public ICommand NextPhrase
-        {
-            get { return new RelayCommand(TryGenerateNextPhrase, IsButtonEnabled); }
-        }
+
+        public ICommand NextPhrase => new RelayCommand(TryGenerateNextPhrase, IsButtonEnabled);
 
         public string ContinueLabel
         {
@@ -48,7 +44,7 @@ namespace MandarinLearner.ViewModel
                 isCheckEnglishOption = value;
 
                 UpdateContinueLabel();
-                
+
                 if (CheckboxChanged != null)
                 {
                     CheckboxChanged(this, IsCheckEnglishOption);
@@ -88,18 +84,22 @@ namespace MandarinLearner.ViewModel
             }
         }
 
+        public override string Name => "Learner";
+
+        public event EventHandler<bool> CheckboxChanged;
+
         private static bool IsButtonEnabled()
         {
             return true;
         }
 
-        private void TryGenerateNextPhrase()
+        private async void TryGenerateNextPhrase()
         {
             if (IsCheckEnglishOption)
             {
                 if (EnglishAnswerValidator())
                 {
-                    CurrentPhrase = phraseRepository.GetRandomPhrase();       
+                    CurrentPhrase = await PhraseRepository.GetRandomHskPhraseByLevel(1);
                     points.AnsweredCorrect();
                     SendPointsUpdate();
                 }
@@ -111,7 +111,7 @@ namespace MandarinLearner.ViewModel
             }
             else
             {
-                CurrentPhrase = phraseRepository.GetRandomPhrase();                
+                CurrentPhrase = await PhraseRepository.GetRandomHskPhraseByLevel(1);
             }
         }
 

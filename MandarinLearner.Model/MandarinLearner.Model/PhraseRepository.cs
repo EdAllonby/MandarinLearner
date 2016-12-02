@@ -1,32 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
+using log4net;
 
 namespace MandarinLearner.Model
 {
     public class PhraseRepository
     {
-        private readonly Dictionary<string, Phrase> phrasesIndexedByEnglish = new Dictionary<string, Phrase>();
-        private readonly Random random = new Random();
+        private static readonly ILog Log = LogManager.GetLogger(typeof(PhraseRepository));
 
-        public void LoadAll()
+        public static Phrase GetRandomPhrase()
         {
-            IEnumerable<Phrase> phrases = PhraseParser.ParseAll();
-
-            foreach (Phrase phrase in phrases)
+            using (var context = new LanguageLearningModel())
             {
-                phrasesIndexedByEnglish.Add(phrase.EnglishPhrase, phrase);
+                return context.Phrases.OrderBy(phrase => Guid.NewGuid()).First();
             }
         }
 
-        public Phrase GetPhraseByEnglish(string english)
+        public static async Task<Phrase> GetRandomHskPhraseByLevel(int hskLevel)
         {
-            return phrasesIndexedByEnglish.ContainsKey(english) ? phrasesIndexedByEnglish[english] : null;
+            return await Task.Run(() =>
+            {
+                using (var context = new LanguageLearningModel())
+                {
+                    Log.DebugFormat("Loading random HSK Phrases found for level {0}.", hskLevel);
+                    HskPhrase randomHskPhrase = context.HskPhrases.Include(x => x.MeasureWords).OrderBy(phrase => Guid.NewGuid()).First(x => x.HskLevel == hskLevel);
+                    Log.DebugFormat("Completed loading random HSK Phrases found for level {0}.", hskLevel);
+                    return randomHskPhrase;
+                }
+            });
         }
 
-        public Phrase GetRandomPhrase()
+        public static async Task<IEnumerable<Phrase>> GetAllPhrasesFromLevelAsync(int hskLevel)
         {
-            return phrasesIndexedByEnglish.ElementAt(random.Next(0, phrasesIndexedByEnglish.Count)).Value;
+            return await Task.Run(() =>
+            {
+                using (var context = new LanguageLearningModel())
+                {
+                    Log.DebugFormat("Loading all HSK Phrases found for level {0} and under.", hskLevel);
+                    List<HskPhrase> results = context.HskPhrases.Include(x => x.MeasureWords).Where(x => x.HskLevel <= hskLevel).ToList();
+                    Log.DebugFormat("Completed loading all HSK Phrases found for level {0} and under.", hskLevel);
+                    return results;
+                }
+            });
         }
     }
 }

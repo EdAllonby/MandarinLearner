@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="MandarinLearner.LearnerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModel="clr-namespace:MandarinLearner.ViewModel;assembly=MandarinLearner.ViewModel"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             d:DataContext="{d:DesignInstance viewModel:LearnerViewModel}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="60" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Name="EnglishPhrase" Content="{Binding CurrentPhrase.EnglishPhrase}"
+                   HorizontalAlignment="Center" Visibility="Visible" VerticalAlignment="Center" FontSize="22" />
+            <TextBox Name="EnglishTest" Text="{Binding UpdatedEnglishAnswer, UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalAlignment="Center" Visibility="Collapsed" VerticalAlignment="Center" Width="200"
+                     FontSize="22" />
+        </StackPanel>
+
+        <Label Content="{Binding CurrentPhrase.PinyinPhrase}" HorizontalAlignment="Center" Grid.Row="1"
+               VerticalAlignment="Center" FontSize="22" />
+        <Label Content="{Binding CurrentPhrase.SimplifiedChinesePhrase}" HorizontalAlignment="Center" Grid.Row="2"
+               VerticalAlignment="Top" FontSize="22" FontFamily="Adobe Song Std L" />
+        <Label Content="{Binding CurrentPhrase.DisplayableMeasureWords }" HorizontalAlignment="Center" Grid.Row="3"
+               VerticalAlignment="Top" FontSize="22" FontFamily="Adobe Song Std L" />
+
+        <CheckBox Grid.Row="4" Content="Check English" IsChecked="{Binding IsCheckEnglishOption}"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Label Content="Correct:" />
+            <Label Content="{Binding Points.Correct}" />
+            <Label Content="Incorrect:" />
+            <Label Content="{Binding Points.Incorrect}" />
+            <Label Content="Percentage:" />
+            <Label Content="{Binding Points.Percentage}" />
+
+        </StackPanel>
+
+        <Button Grid.Row="6" Grid.Column="0" Content="{Binding ContinueLabel}"
+                VerticalAlignment="Bottom"
+                Height="40"
+                FontFamily="/Client.View;component/Resources/#Roboto Thin" FontSize="14"
+                Command="{Binding NextPhrase}" />
+    </Grid>
+</UserControl>

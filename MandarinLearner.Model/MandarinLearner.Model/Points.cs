@@ -6,15 +6,9 @@
 
         public int Incorrect { get; private set; }
 
-        public string Percentage
-        {
-            get { return GetAveragePercentCorrect() + "%"; }
-        }
+        public string Percentage => GetAveragePercentCorrect() + "%";
 
-        private int Total
-        {
-            get { return Correct + Incorrect; }
-        }
+        private int Total => Correct + Incorrect;
 
         public void AnsweredCorrect()
         {
@@ -35,7 +29,7 @@
                 return 100;
             }
 
-            return (double) Correct*100/((Total));
+            return (double) Correct*100/Total;
         }
     }
 }

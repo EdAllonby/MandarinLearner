@@ -6,21 +6,15 @@ namespace MandarinLearner.ViewModel.RelayCommands
 {
     internal class RelayCommand : ICommand
     {
-        #region Members
-
-        private readonly Func<Boolean> canExecute;
+        private readonly Func<bool> canExecute;
         private readonly Action execute;
-
-        #endregion
-
-        #region Constructors
 
         public RelayCommand(Action execute)
             : this(execute, null)
         {
         }
 
-        public RelayCommand(Action execute, Func<Boolean> canExecute)
+        public RelayCommand(Action execute, Func<bool> canExecute)
         {
             if (execute == null)
             {
@@ -29,10 +23,6 @@ namespace MandarinLearner.ViewModel.RelayCommands
             this.execute = execute;
             this.canExecute = canExecute;
         }
-
-        #endregion
-
-        #region ICommand Members
 
         public event EventHandler CanExecuteChanged
         {
@@ -53,16 +43,14 @@ namespace MandarinLearner.ViewModel.RelayCommands
         }
 
         [DebuggerStepThrough]
-        public Boolean CanExecute(Object parameter)
+        public bool CanExecute(object parameter)
         {
-            return canExecute == null || canExecute();
+            return (canExecute == null) || canExecute();
         }
 
-        public void Execute(Object parameter)
+        public void Execute(object parameter)
         {
             execute();
         }
-
-        #endregion
     }
 }
