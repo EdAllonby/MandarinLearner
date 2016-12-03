@@ -8,5 +8,7 @@ namespace MandarinLearner.Model
         public virtual DbSet<HskPhrase> HskPhrases { get; set; }
 
         public virtual DbSet<MeasureWord> MeasureWords { get; set; }
+
+        public virtual DbSet<Tag> Tags { get; set; }
     }
 }

@@ -11,5 +11,10 @@ namespace MandarinLearner.Model
         public string SimplifiedChinese { get; set; }
 
         public string Pinyin { get; set; }
+
+        public override string ToString()
+        {
+            return Pinyin;
+        }
     }
 }

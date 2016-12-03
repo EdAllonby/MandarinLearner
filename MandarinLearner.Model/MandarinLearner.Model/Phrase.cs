@@ -50,5 +50,10 @@ namespace MandarinLearner.Model
                 return measureWords.Remove(measureWords.Length - seperator.Length);
             }
         }
+
+        public override string ToString()
+        {
+            return PinyinPhrase;
+        }
     }
 }

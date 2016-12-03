@@ -4,6 +4,7 @@
         xmlns:viewModel="clr-namespace:MandarinLearner.ViewModel;assembly=MandarinLearner.ViewModel"
         xmlns:mandarinLearner="clr-namespace:MandarinLearner"
         xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="Mandarin Learner" Height="1000" Width="1200"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
@@ -30,7 +31,29 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Column="0" ItemsSource="{Binding Modes}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Menu IsMainMenu="True" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <MenuItem Header="_File">
+                <MenuItem Header="Exit" InputGestureText="Ctrl+E">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="ExitToApp" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Import" Command="{Binding ImportCommand}">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Import" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Modes}"
                  SelectedItem="{Binding Path=SelectedMode}" SelectedIndex="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -44,7 +67,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <ContentControl Grid.Column="1" Content="{Binding SelectedMode}" />
+        <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding SelectedMode}" />
 
     </Grid>
 </Window>

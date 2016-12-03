@@ -18,8 +18,6 @@ namespace MandarinLearner.ViewModel
 
         public LearnerViewModel()
         {
-            // CsvImporter importer = new CsvImporter();
-            // importer.ImportHskFormat("E:\\Ed\\Documents\\Repositories\\MandarinLearner\\MandarinLearner.ViewModel\\MandarinLearner.ViewModel\\bin\\Debug\\HSK6.csv");
             TryGenerateNextPhrase();
             UpdateContinueLabel();
         }

@@ -26,7 +26,7 @@ namespace MandarinLearner.Model
                 using (var context = new LanguageLearningModel())
                 {
                     Log.DebugFormat("Loading random HSK Phrases found for level {0}.", hskLevel);
-                    HskPhrase randomHskPhrase = context.HskPhrases.Include(x => x.MeasureWords).OrderBy(phrase => Guid.NewGuid()).First(x => x.HskLevel == hskLevel);
+                    HskPhrase randomHskPhrase = context.HskPhrases.Include(x => x.MeasureWords).OrderBy(phrase => Guid.NewGuid()).FirstOrDefault(x => x.HskLevel == hskLevel);
                     Log.DebugFormat("Completed loading random HSK Phrases found for level {0}.", hskLevel);
                     return randomHskPhrase;
                 }
@@ -41,7 +41,7 @@ namespace MandarinLearner.Model
                 {
                     Log.DebugFormat("Loading all HSK Phrases found for level {0} and under.", hskLevel);
                     List<HskPhrase> results = context.HskPhrases.Include(x => x.MeasureWords).Where(x => x.HskLevel <= hskLevel).ToList();
-                    Log.DebugFormat("Completed loading all HSK Phrases found for level {0} and under.", hskLevel);
+                    Log.DebugFormat("Completed loading {0} HSK Phrases found for level {1} and under.", results.Count, hskLevel);
                     return results;
                 }
             });

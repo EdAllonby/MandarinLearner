@@ -75,9 +75,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CsvImporter.cs" />
+    <Compile Include="HskPhraseImporter.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="HskPhrase.cs" />
+    <Compile Include="IPhraseImporter.cs" />
     <Compile Include="LanguageLearningModel.cs" />
     <Compile Include="MeasureWord.cs" />
     <Compile Include="Migrations\Configuration.cs" />
