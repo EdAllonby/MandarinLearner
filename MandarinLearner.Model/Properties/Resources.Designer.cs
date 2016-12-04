@@ -61,6 +61,20 @@ namespace MandarinLearner.Model.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HSK Level,Word,Pronunciation,Definition,
+        ///3,阿姨,a1 yi2,maternal aunt; step-mother; childcare worker; nursemaid; woman of similar age to one&apos;s parents (term of address used by child); CL:個|个[ge4],
+        ///3,啊,a5,&quot;modal particle ending sentence, showing affirmation, approval, or consent&quot;,
+        ///5,唉,ai1,&quot;interjection or grunt of agreement or recognition (e.g. yes, it&apos;s me!); to sigh&quot;,
+        ///6,哎哟,ai1 yo1,hey; ow; ouch; interjection of pain or surprise,
+        ///6,挨,ai2,to suffer from; to endure; to tide over (a difficult period); to del [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Hsk6 {
+            get {
+                return ResourceManager.GetString("Hsk6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 3007	ling2
         ///4E00	yi1
         ///4E01	ding1
@@ -103,11 +117,7 @@ namespace MandarinLearner.Model.Properties {
         ///4E26	bing4
         ///4E27	sang1	sang4
         ///4E28	shu4
-        ///4E29	jiu1
-        ///4E2A	ge4
-        ///4E2B	ya1
-        ///4E2C	qiang2	pan2
-        ///4E2D [rest of string was truncated]&quot;;.
+        ///4E29	ji [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string UnicodePinyinLookup {
             get {

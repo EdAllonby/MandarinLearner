@@ -6,7 +6,7 @@ namespace MandarinLearner.Model
     {
         public int Id { get; set; }
 
-        public string SimplifiedChinese { get; set; }
+        public string Hanzi { get; set; }
         public string Pinyin { get; set; }
         public string English { get; set; }
 

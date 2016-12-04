@@ -115,7 +115,7 @@ namespace MandarinLearner.ViewModel
 
         private bool EnglishAnswerValidator()
         {
-            return UpdatedEnglishAnswer.ToLower().Equals(CurrentPhrase.EnglishPhrase.ToLower());
+            return UpdatedEnglishAnswer.ToLower().Equals(CurrentPhrase.English.ToLower());
         }
 
         private void SendPointsUpdate()

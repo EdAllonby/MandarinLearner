@@ -13,17 +13,17 @@ namespace MandarinLearner.Model
         /// <summary>
         /// The readonly english translation
         /// </summary>
-        public string EnglishPhrase { get; set; }
+        public string English { get; set; }
 
         /// <summary>
-        /// The readonly Pinyin representation
+        /// The readonly Pinyin representation of the Hanzi
         /// </summary>
-        public string PinyinPhrase { get; set; }
+        public string Pinyin { get; set; }
 
         /// <summary>
-        /// The readonly simplified Chinese phrase
+        /// The readonly Hanzi (Simplified Chinese) phrase
         /// </summary>
-        public string SimplifiedChinesePhrase { get; set; }
+        public string Hanzi { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; }
 
@@ -45,7 +45,7 @@ namespace MandarinLearner.Model
 
                 foreach (MeasureWord measureWord in MeasureWords)
                 {
-                    measureWords += $"{measureWord.SimplifiedChinese} {measureWord.Pinyin}";
+                    measureWords += $"{measureWord.Hanzi} {measureWord.Pinyin}";
                     measureWords += seperator;
                 }
 
@@ -55,7 +55,7 @@ namespace MandarinLearner.Model
 
         public override string ToString()
         {
-            return PinyinPhrase;
+            return Pinyin;
         }
     }
 }

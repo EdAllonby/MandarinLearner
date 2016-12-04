@@ -38,6 +38,9 @@
                      Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="100"
                      Width="100" />
 
+        <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"
+               Content="No Phrases found. Try importing some!" FontWeight="Bold"
+               Visibility="{Binding Converter={StaticResource BoolToVisibilityConverter}, Path=IsLibraryEmpty}" />
 
         <ListBox ItemsSource="{Binding Phrases}" Grid.Row="0" Margin="0 8 0 0"
                  SelectedItem="{Binding Path=SelectedPhrase, Mode=TwoWay}">
@@ -53,12 +56,12 @@
                             <StackPanel Orientation="Vertical">
                                 <TextBlock HorizontalAlignment="Center">
                                     <Run FontWeight="Bold">Pinyin: </Run>
-                                    <TextBlock Text="{Binding PinyinPhrase}" TextWrapping="Wrap" MaxWidth="200"
+                                    <TextBlock Text="{Binding Pinyin}" TextWrapping="Wrap" MaxWidth="200"
                                                Background="Transparent" />
                                 </TextBlock>
                                 <TextBlock HorizontalAlignment="Center">
                                     <Run FontWeight="Bold" BaselineAlignment="Top">English: </Run>
-                                    <TextBlock Text="{Binding EnglishPhrase}" TextWrapping="Wrap" MaxWidth="200"
+                                    <TextBlock Text="{Binding English}" TextWrapping="Wrap" MaxWidth="200"
                                                Background="Transparent" />
                                 </TextBlock>
                                 <TextBlock HorizontalAlignment="Center">
@@ -69,12 +72,12 @@
                             </StackPanel>
                         </DockPanel.ToolTip>
 
-                        <TextBlock Text="{Binding PinyinPhrase}" DockPanel.Dock="Bottom"
+                        <TextBlock Text="{Binding Pinyin}" DockPanel.Dock="Bottom"
                                    TextTrimming="CharacterEllipsis"
                                    HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="DimGray" />
 
                         <Viewbox Stretch="Uniform" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding SimplifiedChinesePhrase}" VerticalAlignment="Center"
+                            <TextBlock Text="{Binding Hanzi}" VerticalAlignment="Center"
                                        FontWeight="Bold" />
                         </Viewbox>
                     </DockPanel>
@@ -85,13 +88,13 @@
                       VerticalContentAlignment="Center" />
         <StackPanel Grid.Row="2" Orientation="Vertical" Style="{x:Null}"
                     Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, Path=SelectedPhrase}">
-            <TextBox HorizontalAlignment="Center" FontSize="30" Text="{Binding SelectedPhrase.SimplifiedChinesePhrase}"
+            <TextBox HorizontalAlignment="Center" FontSize="30" Text="{Binding SelectedPhrase.Hanzi}"
                      IsReadOnly="True" Background="Transparent" BorderThickness="0" Style="{x:Null}"
                      TextWrapping="Wrap" TextAlignment="Center" />
-            <TextBox HorizontalAlignment="Center" FontSize="20" Text="{Binding SelectedPhrase.PinyinPhrase}"
+            <TextBox HorizontalAlignment="Center" FontSize="20" Text="{Binding SelectedPhrase.Pinyin}"
                      IsReadOnly="True" Background="Transparent" BorderThickness="0" Style="{x:Null}"
                      TextWrapping="Wrap" TextAlignment="Center" />
-            <TextBox HorizontalAlignment="Center" FontSize="20" Text="{Binding SelectedPhrase.EnglishPhrase}"
+            <TextBox HorizontalAlignment="Center" FontSize="20" Text="{Binding SelectedPhrase.English}"
                      IsReadOnly="True" Background="Transparent" BorderThickness="0" Style="{x:Null}"
                      TextWrapping="Wrap" TextAlignment="Center" />
             <TextBlock HorizontalAlignment="Center" TextAlignment="Center">

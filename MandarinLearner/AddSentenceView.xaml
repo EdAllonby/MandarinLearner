@@ -43,7 +43,7 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBox Grid.Column="0" Margin="10" materialDesign:HintAssist.Hint="Chinese"
-                         Text="{Binding NewSentenceChinese, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding NewSentenceHanzi, UpdateSourceTrigger=PropertyChanged}"
                          HorizontalAlignment="Stretch" />
 
                 <CheckBox Grid.Column="1" IsChecked="{Binding Path=AutoCompletePinyin, Mode=TwoWay}" Margin="10">
@@ -104,9 +104,9 @@
                     </DataGridTemplateColumn>
 
                     <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Pinyin"
-                                        Binding="{Binding Path=Item.PinyinPhrase}" />
-                    <DataGridTextColumn IsReadOnly="True" Header="Simplified Chinese"
-                                        Binding="{Binding Path=Item.SimplifiedChinesePhrase}" />
+                                        Binding="{Binding Path=Item.Pinyin}" />
+                    <DataGridTextColumn IsReadOnly="True" Header="Hanzi"
+                                        Binding="{Binding Path=Item.Hanzi}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
@@ -161,8 +161,8 @@
 
                     <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Pinyin"
                                         Binding="{Binding Path=Item.Pinyin}" />
-                    <DataGridTextColumn IsReadOnly="True" Header="Simplified Chinese"
-                                        Binding="{Binding Path=Item.SimplifiedChinese}" />
+                    <DataGridTextColumn IsReadOnly="True" Header="Hanzi"
+                                        Binding="{Binding Path=Item.Hanzi}" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

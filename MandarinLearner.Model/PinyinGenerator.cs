@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using MandarinLearner.Model.Properties;
@@ -13,9 +14,7 @@ namespace MandarinLearner.Model
 
         public PinyinGenerator()
         {
-            string lookup = Resources.UnicodePinyinLookup;
-
-            foreach (string item in lookup.Split('\n'))
+            foreach (string item in SplitToLines(Resources.UnicodePinyinLookup))
             {
                 if (string.IsNullOrWhiteSpace(item))
                 {
@@ -26,6 +25,24 @@ namespace MandarinLearner.Model
                 int num = int.Parse(pinyinComponents[0], NumberStyles.AllowHexSpecifier);
                 char key = Convert.ToChar(num);
                 pinyinIndexedByUnicode.Add(key, pinyinComponents.Skip(1));
+            }
+        }
+
+
+        private static IEnumerable<string> SplitToLines(string input)
+        {
+            if (input == null)
+            {
+                yield break;
+            }
+
+            using (var reader = new StringReader(input))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return line;
+                }
             }
         }
 

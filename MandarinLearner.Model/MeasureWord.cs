@@ -8,7 +8,7 @@ namespace MandarinLearner.Model
 
         public virtual ICollection<Phrase> Noun { get; set; }
 
-        public string SimplifiedChinese { get; set; }
+        public string Hanzi { get; set; }
 
         public string Pinyin { get; set; }
 

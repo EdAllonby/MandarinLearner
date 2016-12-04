@@ -21,16 +21,16 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Label Name="EnglishPhrase" Content="{Binding CurrentPhrase.EnglishPhrase}"
+            <Label Name="English" Content="{Binding CurrentPhrase.English}"
                    HorizontalAlignment="Center" Visibility="Visible" VerticalAlignment="Center" FontSize="22" />
             <TextBox Name="EnglishTest" Text="{Binding UpdatedEnglishAnswer, UpdateSourceTrigger=PropertyChanged}"
                      HorizontalAlignment="Center" Visibility="Collapsed" VerticalAlignment="Center" Width="200"
                      FontSize="22" />
         </StackPanel>
 
-        <Label Content="{Binding CurrentPhrase.PinyinPhrase}" HorizontalAlignment="Center" Grid.Row="1"
+        <Label Content="{Binding CurrentPhrase.Pinyin}" HorizontalAlignment="Center" Grid.Row="1"
                VerticalAlignment="Center" FontSize="22" />
-        <Label Content="{Binding CurrentPhrase.SimplifiedChinesePhrase}" HorizontalAlignment="Center" Grid.Row="2"
+        <Label Content="{Binding CurrentPhrase.Hanzi}" HorizontalAlignment="Center" Grid.Row="2"
                VerticalAlignment="Top" FontSize="22" FontFamily="Adobe Song Std L" />
         <Label Content="{Binding CurrentPhrase.DisplayableMeasureWords }" HorizontalAlignment="Center" Grid.Row="3"
                VerticalAlignment="Top" FontSize="22" FontFamily="Adobe Song Std L" />

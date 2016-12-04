@@ -19,7 +19,7 @@ namespace MandarinLearner.ViewModel
         private ObservableCollection<SelectableItem<Phrase>> displayablePhrases;
 
         private string measureWordSearchTerm = string.Empty;
-        private string newSentenceChinese = string.Empty;
+        private string newSentenceHanzi = string.Empty;
         private string newSentenceEnglish = string.Empty;
         private string newSentencePinyin = string.Empty;
         private string phraseSearchTerm = string.Empty;
@@ -112,17 +112,17 @@ namespace MandarinLearner.ViewModel
             }
         }
 
-        public string NewSentenceChinese
+        public string NewSentenceHanzi
         {
-            get { return newSentenceChinese; }
+            get { return newSentenceHanzi; }
             set
             {
-                newSentenceChinese = value;
+                newSentenceHanzi = value;
                 OnPropertyChanged();
 
                 if (AutoCompletePinyin)
                 {
-                    NewSentencePinyin = pinyinGenerator.GetPinyinFromHanzi(newSentenceChinese);
+                    NewSentencePinyin = pinyinGenerator.GetPinyinFromHanzi(newSentenceHanzi);
                 }
             }
         }
@@ -147,7 +147,7 @@ namespace MandarinLearner.ViewModel
         {
             foreach (SelectableItem<Phrase> availablePhrase in availablePhrases)
             {
-                if (NewSentenceChinese.Contains(availablePhrase.Item.SimplifiedChinesePhrase))
+                if (NewSentenceHanzi.Contains(availablePhrase.Item.Hanzi))
                 {
                     availablePhrase.IsSelected = true;
                 }
@@ -160,7 +160,7 @@ namespace MandarinLearner.ViewModel
         {
             foreach (SelectableItem<MeasureWord> availableMeasureWord in availableMeasureWords)
             {
-                if (NewSentenceChinese.Contains(availableMeasureWord.Item.SimplifiedChinese))
+                if (NewSentenceHanzi.Contains(availableMeasureWord.Item.Hanzi))
                 {
                     availableMeasureWord.IsSelected = true;
                 }
@@ -182,7 +182,7 @@ namespace MandarinLearner.ViewModel
         private bool ShouldDisplayPhrase(Phrase phrase)
         {
             string[] searchTerms = PhraseSearchTerm.Split(' ');
-            string[] phraseParts = phrase.PinyinPhrase.Split(' ');
+            string[] phraseParts = phrase.Pinyin.Split(' ');
 
             return searchTerms.All(searchTerm => phraseParts.Any(phrasePart => phrasePart.StartsWith(searchTerm)));
         }
@@ -197,7 +197,7 @@ namespace MandarinLearner.ViewModel
 
         private bool IsSentenceComplete()
         {
-            return !string.IsNullOrWhiteSpace(NewSentencePinyin) && !string.IsNullOrWhiteSpace(NewSentenceEnglish) && !string.IsNullOrWhiteSpace(NewSentenceChinese);
+            return !string.IsNullOrWhiteSpace(NewSentencePinyin) && !string.IsNullOrWhiteSpace(NewSentenceEnglish) && !string.IsNullOrWhiteSpace(NewSentenceHanzi);
         }
 
         private void AddSentence()
@@ -205,7 +205,7 @@ namespace MandarinLearner.ViewModel
             IEnumerable<Phrase> selectedPhrases = FindSelectedItems(availablePhrases);
             IEnumerable<MeasureWord> selectedMeasureWords = FindSelectedItems(availableMeasureWords);
 
-            SentenceMaker.AddSentence(NewSentenceEnglish, NewSentencePinyin, NewSentenceChinese, selectedPhrases.ToList(), selectedMeasureWords.ToList());
+            SentenceMaker.AddSentence(NewSentenceEnglish, NewSentencePinyin, NewSentenceHanzi, selectedPhrases.ToList(), selectedMeasureWords.ToList());
         }
 
         private static IEnumerable<T> FindSelectedItems<T>(IEnumerable<SelectableItem<T>> selectableItems)

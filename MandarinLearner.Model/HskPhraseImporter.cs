@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CsvHelper;
 using log4net;
+using MandarinLearner.Model.Properties;
 
 namespace MandarinLearner.Model
 {
@@ -17,7 +18,7 @@ namespace MandarinLearner.Model
         {
             await Task.Run(() =>
             {
-                using (var sr = new StreamReader(csvFile))
+                using (var sr = new StringReader(Resources.Hsk6))
                 using (var csv = new CsvReader(sr))
                 {
                     while (csv.Read())
@@ -29,7 +30,7 @@ namespace MandarinLearner.Model
 
                         string[] splitEnglish = englishDefinition.Split(new[] { "CL:" }, StringSplitOptions.None);
                         string english = splitEnglish[0].Trim();
-                        var phrase = new HskPhrase { SimplifiedChinesePhrase = chineseWord, PinyinPhrase = pinyin, EnglishPhrase = english, HskLevel = hskLevel };
+                        var phrase = new HskPhrase { Hanzi = chineseWord, Pinyin = pinyin, English = english, HskLevel = hskLevel };
 
                         List<MeasureWord> measureWords = FindMeasureWords(splitEnglish).ToList();
 
@@ -38,7 +39,7 @@ namespace MandarinLearner.Model
                             phrase.Tags = new List<Tag>();
                             phrase.MeasureWords = new List<MeasureWord>();
 
-                            Log.DebugFormat("Adding phrase [{0}]", phrase.PinyinPhrase);
+                            Log.DebugFormat("Adding phrase [{0}]", phrase.Pinyin);
 
                             AddPhrase(context, phrase);
 
@@ -48,7 +49,7 @@ namespace MandarinLearner.Model
 
                             foreach (MeasureWord measureWord in measureWords)
                             {
-                                AddElementToSet(context, measureWord, phrase.MeasureWords, mw => mw.SimplifiedChinese == measureWord.SimplifiedChinese);
+                                AddElementToSet(context, measureWord, phrase.MeasureWords, mw => mw.Hanzi == measureWord.Hanzi);
 
                                 context.SaveChanges();
                             }
@@ -89,7 +90,7 @@ namespace MandarinLearner.Model
 
         private static void AddPhrase(LanguageLearningModel context, Phrase phrase)
         {
-            if (!context.Phrases.Any(p => p.SimplifiedChinesePhrase == phrase.SimplifiedChinesePhrase))
+            if (!context.Phrases.Any(p => p.Hanzi == phrase.Hanzi))
             {
                 context.Phrases.Add(phrase);
             }
@@ -111,12 +112,12 @@ namespace MandarinLearner.Model
             string[] measureWordsFound = includesMeasureWordPart.Split(',');
             foreach (string measureWordComponents in measureWordsFound)
             {
-                string simplifiedChineseWord = measureWordComponents.Split('[')[0];
+                string hanzi = measureWordComponents.Split('[')[0];
                 string[] pinyinMeasureWord = measureWordComponents.Split('[', ']');
 
                 if (pinyinMeasureWord.Length > 1)
                 {
-                    yield return new MeasureWord { Pinyin = pinyinMeasureWord[1], SimplifiedChinese = simplifiedChineseWord };
+                    yield return new MeasureWord { Pinyin = pinyinMeasureWord[1], Hanzi = hanzi };
                 }
                 else
                 {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -21,8 +22,11 @@ namespace MandarinLearner.ViewModel
             {
                 isLoading = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsLibraryEmpty));
             }
         }
+
+        public bool IsLibraryEmpty => !IsLoading && (phrases == null || !phrases.Any());
 
 
         public IEnumerable<Phrase> Phrases

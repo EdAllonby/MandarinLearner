@@ -13,7 +13,7 @@ namespace MandarinLearner.Model
             {
                 Pinyin = pinyin,
                 English = english,
-                SimplifiedChinese = chinese,
+                Hanzi = chinese,
                 RelatedPhrases = relatedPhrases,
                 RelatedMeasureWords = relatedMeasureWords
             };

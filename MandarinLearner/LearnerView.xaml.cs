@@ -21,12 +21,12 @@ namespace MandarinLearner
         {
             if (e)
             {
-                EnglishPhrase.Visibility = Visibility.Collapsed;
+                English.Visibility = Visibility.Collapsed;
                 EnglishTest.Visibility = Visibility.Visible;
             }
             else
             {
-                EnglishPhrase.Visibility = Visibility.Visible;
+                English.Visibility = Visibility.Visible;
                 EnglishTest.Visibility = Visibility.Collapsed;
             }
         }
