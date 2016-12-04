@@ -18,6 +18,9 @@
         <DataTemplate DataType="{x:Type viewModel:LearnerViewModel}">
             <mandarinLearner:LearnerView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SentencesViewModel}">
+            <mandarinLearner:SentencesView />
+        </DataTemplate>
     </Window.Resources>
 
     <intr:Interaction.Triggers>
@@ -63,8 +66,12 @@
                  SelectedItem="{Binding Path=SelectedMode}" SelectedIndex="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel Height="100" Width="100">
-                        <Viewbox Stretch="Uniform" HorizontalAlignment="Center">
+                    <DockPanel Height="50">
+                        <materialDesign:PackIcon Kind="{Binding Path=Icon}" Height="20" Margin="0,0,10,0" Width="20"
+                                                 VerticalAlignment="Center" Opacity=".4" />
+
+                        <Viewbox Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
+
                             <TextBlock Text="{Binding Name}" VerticalAlignment="Center"
                                        FontWeight="Bold" />
                         </Viewbox>

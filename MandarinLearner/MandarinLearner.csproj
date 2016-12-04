@@ -75,8 +75,12 @@
     </Compile>
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseBoolConverter.cs" />
+    <Compile Include="Converters\NullOrEmptyVisibilityConverter.cs" />
     <Compile Include="LearnerView.xaml.cs">
       <DependentUpon>LearnerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SentencesView.xaml.cs">
+      <DependentUpon>SentencesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="LibraryView.xaml.cs">
       <DependentUpon>LibraryView.xaml</DependentUpon>
@@ -89,6 +93,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="LearnerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SentencesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

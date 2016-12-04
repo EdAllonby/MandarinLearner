@@ -33,9 +33,6 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0">
-
-            <TextBox Margin="10" materialDesign:HintAssist.Hint="English"
-                     Text="{Binding NewSentenceEnglish, UpdateSourceTrigger=PropertyChanged}" />
             <Grid HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -50,6 +47,8 @@
                     Auto Complete Pinyin
                 </CheckBox>
             </Grid>
+            <TextBox Margin="10" materialDesign:HintAssist.Hint="English"
+                     Text="{Binding NewSentenceEnglish, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox IsReadOnly="{Binding AutoCompletePinyin}"
                      IsEnabled="{Binding AutoCompletePinyin, Converter={StaticResource InverseBoolConverter}}"
                      Margin="10" materialDesign:HintAssist.Hint="Pinyin"

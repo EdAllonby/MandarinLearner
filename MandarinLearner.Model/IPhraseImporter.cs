@@ -4,6 +4,6 @@ namespace MandarinLearner.Model
 {
     public interface IPhraseImporter
     {
-        Task ImportPhrasesAsync(string csvFile);
+        Task ImportPhrasesAsync();
     }
 }

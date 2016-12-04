@@ -28,24 +28,6 @@ namespace MandarinLearner.Model
             }
         }
 
-
-        private static IEnumerable<string> SplitToLines(string input)
-        {
-            if (input == null)
-            {
-                yield break;
-            }
-
-            using (var reader = new StringReader(input))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    yield return line;
-                }
-            }
-        }
-
         public string GetPinyinFromHanzi(string hanzi)
         {
             var pinyin = new StringBuilder();
@@ -63,6 +45,23 @@ namespace MandarinLearner.Model
             }
 
             return pinyin.ToString().Trim();
+        }
+
+        private static IEnumerable<string> SplitToLines(string input)
+        {
+            if (input == null)
+            {
+                yield break;
+            }
+
+            using (var reader = new StringReader(input))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    yield return line;
+                }
+            }
         }
     }
 }

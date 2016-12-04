@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using MandarinLearner.Model;
 using MandarinLearner.ViewModel.RelayCommands;
+using MaterialDesignThemes.Wpf;
 
 namespace MandarinLearner.ViewModel
 {
@@ -21,6 +22,8 @@ namespace MandarinLearner.ViewModel
             TryGenerateNextPhrase();
             UpdateContinueLabel();
         }
+
+        public override PackIconKind Icon => PackIconKind.CardsPlayingOutline;
 
         public ICommand NextPhrase => new RelayCommand(TryGenerateNextPhrase, IsButtonEnabled);
 

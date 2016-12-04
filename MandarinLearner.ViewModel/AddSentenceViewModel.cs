@@ -19,8 +19,8 @@ namespace MandarinLearner.ViewModel
         private ObservableCollection<SelectableItem<Phrase>> displayablePhrases;
 
         private string measureWordSearchTerm = string.Empty;
-        private string newSentenceHanzi = string.Empty;
         private string newSentenceEnglish = string.Empty;
+        private string newSentenceHanzi = string.Empty;
         private string newSentencePinyin = string.Empty;
         private string phraseSearchTerm = string.Empty;
         private bool showSelectedMeasureWords;

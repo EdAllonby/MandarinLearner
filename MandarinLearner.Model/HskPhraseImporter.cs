@@ -14,7 +14,7 @@ namespace MandarinLearner.Model
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(HskPhraseImporter));
 
-        public async Task ImportPhrasesAsync(string csvFile)
+        public async Task ImportPhrasesAsync()
         {
             await Task.Run(() =>
             {

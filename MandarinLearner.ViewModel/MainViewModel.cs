@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using MandarinLearner.Model;
 using MandarinLearner.ViewModel.RelayCommands;
@@ -37,12 +40,24 @@ namespace MandarinLearner.ViewModel
 
         private async void Import()
         {
-            await importer.ImportPhrasesAsync("E:\\Ed\\Documents\\Repositories\\MandarinLearner\\MandarinLearner.ViewModel\\MandarinLearner.ViewModel\\bin\\Debug\\HSK6.csv");
+            await importer.ImportPhrasesAsync();
         }
 
         private void Initialize()
         {
-            Modes = new ObservableCollection<LearnerModeViewModel> { new LearnerViewModel(), new LibraryViewModel() };
+            IEnumerable<LearnerModeViewModel> learnerModes = GetEnumerableOfType<LearnerModeViewModel>();
+            Modes = new ObservableCollection<LearnerModeViewModel>(learnerModes);
+        }
+
+
+        private static IEnumerable<T> GetEnumerableOfType<T>() where T : class
+        {
+            Type abstractType = typeof(T);
+
+            return abstractType
+                .Assembly.GetTypes()
+                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(abstractType))
+                .Select(type => (T) Activator.CreateInstance(type));
         }
     }
 }

@@ -53,6 +53,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Phrase.cs" />
     <Compile Include="MeasureWordRepository.cs" />
+    <Compile Include="SentenceRepository.cs" />
     <Compile Include="PhraseRepository.cs" />
     <Compile Include="PinyinGenerator.cs" />
     <Compile Include="Points.cs" />

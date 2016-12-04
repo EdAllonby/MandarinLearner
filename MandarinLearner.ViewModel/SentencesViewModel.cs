@@ -10,11 +10,10 @@ using MaterialDesignThemes.Wpf;
 
 namespace MandarinLearner.ViewModel
 {
-    public sealed class LibraryViewModel : LearnerModeViewModel
+    public sealed class SentencesViewModel : LearnerModeViewModel
     {
         private bool isLoading;
-        private IEnumerable<Phrase> phrases;
-        private HskPhrase selectedPhrase;
+        private IEnumerable<Sentence> sentences;
 
         public bool IsLoading
         {
@@ -27,42 +26,32 @@ namespace MandarinLearner.ViewModel
             }
         }
 
-        public bool IsLibraryEmpty => !IsLoading && (phrases == null || !phrases.Any());
+        public bool IsLibraryEmpty => !IsLoading && (sentences == null || !sentences.Any());
 
 
-        public IEnumerable<Phrase> Phrases
+        public IEnumerable<Sentence> Sentences
         {
-            get { return phrases; }
+            get { return sentences; }
             set
             {
-                phrases = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public HskPhrase SelectedPhrase
-        {
-            get { return selectedPhrase; }
-            set
-            {
-                selectedPhrase = value;
+                sentences = value;
                 OnPropertyChanged();
             }
         }
 
         public ICommand LoadedCommand => new RelayCommand(InitializeAsync);
 
-        public override string Name => "Library";
+        public override string Name => "Sentences";
 
-        public override PackIconKind Icon => PackIconKind.Library;
+        public override PackIconKind Icon => PackIconKind.Message;
 
         private async void InitializeAsync()
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                Task<IEnumerable<Phrase>> loadedPhrases = PhraseRepository.GetAllPhrasesFromLevelAsync(6);
+                Task<IEnumerable<Sentence>> loadedSentences = SentenceRepository.GetAllSentencesAsync();
                 IsLoading = true;
-                Phrases = await loadedPhrases;
+                Sentences = await loadedSentences;
                 IsLoading = false;
             }
         }
