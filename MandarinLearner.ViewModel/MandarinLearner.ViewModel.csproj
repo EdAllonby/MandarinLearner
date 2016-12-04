@@ -55,12 +55,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MandarinLearner.Model\MandarinLearner.Model\MandarinLearner.Model.csproj">
-      <Project>{BFCD8D56-8DB0-47DA-A44F-D313EE94EAC3}</Project>
-      <Name>MandarinLearner.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
@@ -74,6 +68,12 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MandarinLearner.Model\MandarinLearner.Model.csproj">
+      <Project>{BFCD8D56-8DB0-47DA-A44F-D313EE94EAC3}</Project>
+      <Name>MandarinLearner.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -52,7 +52,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MandarinLearner.Model\MandarinLearner.Model\MandarinLearner.Model.csproj">
+    <ProjectReference Include="..\MandarinLearner.Model\MandarinLearner.Model.csproj">
       <Project>{BFCD8D56-8DB0-47DA-A44F-D313EE94EAC3}</Project>
       <Name>MandarinLearner.Model</Name>
     </ProjectReference>

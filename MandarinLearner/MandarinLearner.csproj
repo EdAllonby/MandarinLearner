@@ -156,17 +156,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MandarinLearner.Model\MandarinLearner.Model\MandarinLearner.Model.csproj">
-      <Project>{BFCD8D56-8DB0-47DA-A44F-D313EE94EAC3}</Project>
+    <Resource Include="Resources\halftone.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MandarinLearner.Model\MandarinLearner.Model.csproj">
+      <Project>{bfcd8d56-8db0-47da-a44f-d313ee94eac3}</Project>
       <Name>MandarinLearner.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MandarinLearner.ViewModel\MandarinLearner.ViewModel\MandarinLearner.ViewModel.csproj">
+    <ProjectReference Include="..\MandarinLearner.ViewModel\MandarinLearner.ViewModel.csproj">
       <Project>{8B4A4048-FC0A-4B9C-B5A3-14E2A2D39A4F}</Project>
       <Name>MandarinLearner.ViewModel</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\halftone.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
