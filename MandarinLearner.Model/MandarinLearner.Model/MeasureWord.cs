@@ -12,6 +12,8 @@ namespace MandarinLearner.Model
 
         public string Pinyin { get; set; }
 
+        public virtual ICollection<Sentence> SentenceUsages { get; set; }
+
         public override string ToString()
         {
             return Pinyin;

@@ -29,7 +29,7 @@
                 return 100;
             }
 
-            return (double) Correct*100/Total;
+            return (double) Correct * 100 / Total;
         }
     }
 }

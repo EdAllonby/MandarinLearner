@@ -45,7 +45,7 @@ namespace MandarinLearner.ViewModel.RelayCommands
         [DebuggerStepThrough]
         public bool CanExecute(object parameter)
         {
-            return (canExecute == null) || canExecute();
+            return canExecute == null || canExecute();
         }
 
         public void Execute(object parameter)

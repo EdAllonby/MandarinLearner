@@ -1,0 +1,179 @@
+﻿<Window x:Class="MandarinLearner.AddSentenceView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModel="clr-namespace:MandarinLearner.ViewModel;assembly=MandarinLearner.ViewModel"
+        xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:MandarinLearner.Converters"
+        Title="Mandarin Learner" Height="600" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewModel:AddSentenceViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </Window.Resources>
+
+    <intr:Interaction.Triggers>
+        <intr:EventTrigger EventName="Loaded">
+            <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </intr:EventTrigger>
+    </intr:Interaction.Triggers>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0">
+
+            <TextBox Margin="10" materialDesign:HintAssist.Hint="English"
+                     Text="{Binding NewSentenceEnglish, UpdateSourceTrigger=PropertyChanged}" />
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBox Grid.Column="0" Margin="10" materialDesign:HintAssist.Hint="Chinese"
+                         Text="{Binding NewSentenceChinese, UpdateSourceTrigger=PropertyChanged}"
+                         HorizontalAlignment="Stretch" />
+
+                <CheckBox Grid.Column="1" IsChecked="{Binding Path=AutoCompletePinyin, Mode=TwoWay}" Margin="10">
+                    Auto Complete Pinyin
+                </CheckBox>
+            </Grid>
+            <TextBox IsReadOnly="{Binding AutoCompletePinyin}"
+                     IsEnabled="{Binding AutoCompletePinyin, Converter={StaticResource InverseBoolConverter}}"
+                     Margin="10" materialDesign:HintAssist.Hint="Pinyin"
+                     Text="{Binding NewSentencePinyin, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <Grid Grid.Row="1" Margin="0,10,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon Kind="Filter" VerticalAlignment="Center"
+                                         Foreground="{Binding ElementName=PhraseSearchTextBox, Path=BorderBrush}" />
+
+                <TextBox materialDesign:HintAssist.Hint="Phrase Search" x:Name="PhraseSearchTextBox" Width="200px"
+                         HorizontalAlignment="Left"
+                         Text="{Binding PhraseSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <CheckBox IsChecked="{Binding Path=ShowSelectedPhrases, Mode=TwoWay}">
+                    Filter Selected
+                </CheckBox>
+
+                <Button Margin="20,0,0,0" Command="{Binding Path=FindPhrasesCommand}">
+                    Auto Find
+                </Button>
+            </StackPanel>
+
+            <DataGrid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="0 8 0 0"
+                      ItemsSource="{Binding DisplayablePhrases}"
+                      CanUserSortColumns="True"
+                      Height="Auto"
+                      CanUserAddRows="False" AutoGenerateColumns="False"
+                      materialDesign:DataGridAssist.CellPadding="4 2 2 2"
+                      materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                          HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Pinyin"
+                                        Binding="{Binding Path=Item.PinyinPhrase}" />
+                    <DataGridTextColumn IsReadOnly="True" Header="Simplified Chinese"
+                                        Binding="{Binding Path=Item.SimplifiedChinesePhrase}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,10,0,0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Orientation="Horizontal">
+
+                <materialDesign:PackIcon Kind="Filter" VerticalAlignment="Center"
+                                         Foreground="{Binding ElementName=MeasureWordSearchTextBox, Path=BorderBrush}" />
+
+                <TextBox materialDesign:HintAssist.Hint="Measure Word Search" x:Name="MeasureWordSearchTextBox"
+                         Width="200px" HorizontalAlignment="Left"
+                         Text="{Binding MeasureWordSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <CheckBox IsChecked="{Binding Path=ShowSelectedMeasureWords, Mode=TwoWay}">
+                    Filter Selected
+                </CheckBox>
+
+                <Button Margin="20,0,0,0" Command="{Binding Path=FindMeasureWordsCommand}">
+                    Auto Find
+                </Button>
+            </StackPanel>
+
+            <DataGrid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="0 8 0 0"
+                      ItemsSource="{Binding DisplayableMeasureWords}"
+                      CanUserSortColumns="True"
+                      Height="Auto"
+                      CanUserAddRows="False" AutoGenerateColumns="False"
+                      materialDesign:DataGridAssist.CellPadding="4 2 2 2"
+                      materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                          HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Width="1*" IsReadOnly="True" Header="Pinyin"
+                                        Binding="{Binding Path=Item.Pinyin}" />
+                    <DataGridTextColumn IsReadOnly="True" Header="Simplified Chinese"
+                                        Binding="{Binding Path=Item.SimplifiedChinese}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,5,0">
+            <Button Content="Create" Width="74" Height="24" IsDefault="True" Command="{Binding AddSentenceCommand}"
+                    Margin="5" Style="{StaticResource MaterialDesignFlatButton}" />
+            <Button Margin="5" Height="24" Width="74" Content="Cancel" IsCancel="True"
+                    Style="{StaticResource MaterialDesignFlatButton}" />
+        </StackPanel>
+
+    </Grid>
+</Window>

@@ -1,4 +1,6 @@
-﻿namespace MandarinLearner
+﻿using System.Windows;
+
+namespace MandarinLearner
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -8,6 +10,12 @@
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ShowAddSentenceView(object sender, RoutedEventArgs e)
+        {
+            var addSentenceView = new AddSentenceView();
+            addSentenceView.ShowDialog();
         }
     }
 }

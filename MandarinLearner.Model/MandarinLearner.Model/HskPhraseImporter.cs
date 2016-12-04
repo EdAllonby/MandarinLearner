@@ -22,9 +22,9 @@ namespace MandarinLearner.Model
                 {
                     while (csv.Read())
                     {
-                        var chineseWord = csv.GetField<string>("Word");
-                        var pinyin = csv.GetField<string>("Pronunciation");
-                        var englishDefinition = csv.GetField<string>("Definition");
+                        string chineseWord = GetColumn(csv, "Word");
+                        string pinyin = GetColumn(csv, "Pronunciation");
+                        string englishDefinition = GetColumn(csv, "Definition");
                         int hskLevel = ParseHskLevel(csv);
 
                         string[] splitEnglish = englishDefinition.Split(new[] { "CL:" }, StringSplitOptions.None);
@@ -58,6 +58,11 @@ namespace MandarinLearner.Model
                     }
                 }
             });
+        }
+
+        private static string GetColumn(ICsvReaderRow csv, string columnName)
+        {
+            return csv.GetField<string>(columnName).Trim();
         }
 
         private static void AddElementToSet<T>(DbContext context, T element, ICollection<T> set, Func<T, bool> canAdd) where T : class

@@ -10,5 +10,7 @@ namespace MandarinLearner.Model
         public virtual DbSet<MeasureWord> MeasureWords { get; set; }
 
         public virtual DbSet<Tag> Tags { get; set; }
+
+        public virtual DbSet<Sentence> Sentences { get; set; }
     }
 }

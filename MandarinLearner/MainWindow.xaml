@@ -50,10 +50,16 @@
                         <materialDesign:PackIcon Kind="Import" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="_AddSentence" Click="ShowAddSentenceView">
+                    <MenuItem.Icon>
+                        <materialDesign:PackIcon Kind="Import" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 
         <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Modes}"
+                 materialDesign:RippleAssist.IsDisabled="True"
                  SelectedItem="{Binding Path=SelectedMode}" SelectedIndex="0">
             <ListBox.ItemTemplate>
                 <DataTemplate>

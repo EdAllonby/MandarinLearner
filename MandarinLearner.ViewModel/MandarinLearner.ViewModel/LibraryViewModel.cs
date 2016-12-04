@@ -53,7 +53,7 @@ namespace MandarinLearner.ViewModel
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                Task<IEnumerable<Phrase>> loadedPhrases = PhraseRepository.GetAllPhrasesFromLevelAsync(1);
+                Task<IEnumerable<Phrase>> loadedPhrases = PhraseRepository.GetAllPhrasesFromLevelAsync(6);
                 IsLoading = true;
                 Phrases = await loadedPhrases;
                 IsLoading = false;

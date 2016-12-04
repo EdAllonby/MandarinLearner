@@ -94,22 +94,22 @@ namespace MandarinLearner
 
         public void MouseWheelUp()
         {
-            SetVerticalOffset(VerticalOffset - ScrollLineAmount*SystemParameters.WheelScrollLines);
+            SetVerticalOffset(VerticalOffset - ScrollLineAmount * SystemParameters.WheelScrollLines);
         }
 
         public void MouseWheelDown()
         {
-            SetVerticalOffset(VerticalOffset + ScrollLineAmount*SystemParameters.WheelScrollLines);
+            SetVerticalOffset(VerticalOffset + ScrollLineAmount * SystemParameters.WheelScrollLines);
         }
 
         public void MouseWheelLeft()
         {
-            SetHorizontalOffset(HorizontalOffset - ScrollLineAmount*SystemParameters.WheelScrollLines);
+            SetHorizontalOffset(HorizontalOffset - ScrollLineAmount * SystemParameters.WheelScrollLines);
         }
 
         public void MouseWheelRight()
         {
-            SetHorizontalOffset(HorizontalOffset + ScrollLineAmount*SystemParameters.WheelScrollLines);
+            SetHorizontalOffset(HorizontalOffset + ScrollLineAmount * SystemParameters.WheelScrollLines);
         }
 
         public void SetHorizontalOffset(double newHorizontalOffset)
@@ -261,7 +261,7 @@ namespace MandarinLearner
 
                     childLayouts.Add(child, new Rect(currentX, currentY, ItemWidth, ItemHeight));
 
-                    if (currentX + ItemWidth*2 >= availableSize.Width)
+                    if (currentX + ItemWidth * 2 >= availableSize.Width)
                     {
                         // wrap to a new line
                         currentY += ItemHeight;
@@ -296,7 +296,7 @@ namespace MandarinLearner
             {
                 int virtualItemIndex = GetVirtualItemIndex(child);
 
-                if ((virtualItemIndex < layoutInfo.FirstRealizedItemIndex) || (virtualItemIndex > layoutInfo.LastRealizedItemIndex))
+                if (virtualItemIndex < layoutInfo.FirstRealizedItemIndex || virtualItemIndex > layoutInfo.LastRealizedItemIndex)
                 {
                     GeneratorPosition generatorPosition = itemsGenerator.GeneratorPositionFromIndex(virtualItemIndex);
                     if (generatorPosition.Index >= 0)
@@ -356,16 +356,16 @@ namespace MandarinLearner
             // navigates up, the ListBox selects the previous item, and the scrolls that into view - and this triggers the loading of the rest of the items 
             // in that row
 
-            var firstVisibleLine = (int) Math.Floor(VerticalOffset/itemHeight);
+            var firstVisibleLine = (int) Math.Floor(VerticalOffset / itemHeight);
 
-            int firstRealizedIndex = Math.Max(extentInfo.ItemsPerLine*firstVisibleLine - 1, 0);
-            double firstRealizedItemLeft = firstRealizedIndex%extentInfo.ItemsPerLine*ItemWidth - HorizontalOffset;
-            double firstRealizedItemTop = firstRealizedIndex/extentInfo.ItemsPerLine*itemHeight - VerticalOffset;
+            int firstRealizedIndex = Math.Max(extentInfo.ItemsPerLine * firstVisibleLine - 1, 0);
+            double firstRealizedItemLeft = firstRealizedIndex % extentInfo.ItemsPerLine * ItemWidth - HorizontalOffset;
+            double firstRealizedItemTop = firstRealizedIndex / extentInfo.ItemsPerLine * itemHeight - VerticalOffset;
 
             double firstCompleteLineTop = firstVisibleLine == 0 ? firstRealizedItemTop : firstRealizedItemTop + ItemHeight;
-            var completeRealizedLines = (int) Math.Ceiling((availableSize.Height - firstCompleteLineTop)/itemHeight);
+            var completeRealizedLines = (int) Math.Ceiling((availableSize.Height - firstCompleteLineTop) / itemHeight);
 
-            int lastRealizedIndex = Math.Min(firstRealizedIndex + completeRealizedLines*extentInfo.ItemsPerLine + 2, itemsControl.Items.Count - 1);
+            int lastRealizedIndex = Math.Min(firstRealizedIndex + completeRealizedLines * extentInfo.ItemsPerLine + 2, itemsControl.Items.Count - 1);
 
             return new ItemLayoutInfo
             {
@@ -383,9 +383,9 @@ namespace MandarinLearner
                 return new ExtentInfo();
             }
 
-            int itemsPerLine = Math.Max((int) Math.Floor(viewPortSize.Width/ItemWidth), 1);
-            var totalLines = (int) Math.Ceiling((double) itemsControl.Items.Count/itemsPerLine);
-            double extentHeight = Math.Max(totalLines*ItemHeight, viewPortSize.Height);
+            int itemsPerLine = Math.Max((int) Math.Floor(viewPortSize.Width / ItemWidth), 1);
+            var totalLines = (int) Math.Ceiling((double) itemsControl.Items.Count / itemsPerLine);
+            double extentHeight = Math.Max(totalLines * ItemHeight, viewPortSize.Height);
 
             return new ExtentInfo
             {

@@ -33,6 +33,20 @@ namespace MandarinLearner.Model
             });
         }
 
+        public static async Task<IEnumerable<Phrase>> GetAllPhrasesAsync()
+        {
+            return await Task.Run(() =>
+            {
+                using (var context = new LanguageLearningModel())
+                {
+                    Log.Debug("Loading all Phrases");
+                    List<Phrase> results = context.Phrases.ToList();
+                    Log.DebugFormat("Completed loading {0} Phrases.", results.Count);
+                    return results;
+                }
+            });
+        }
+
         public static async Task<IEnumerable<Phrase>> GetAllPhrasesFromLevelAsync(int hskLevel)
         {
             return await Task.Run(() =>

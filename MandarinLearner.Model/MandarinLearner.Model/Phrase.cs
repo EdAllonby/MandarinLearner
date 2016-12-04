@@ -29,6 +29,8 @@ namespace MandarinLearner.Model
 
         public virtual ICollection<MeasureWord> MeasureWords { get; set; }
 
+        public virtual ICollection<Sentence> SentenceUsages { get; set; }
+
         public string DisplayableMeasureWords
         {
             get
