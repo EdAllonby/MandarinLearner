@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace MandarinLearner.ViewModel
     public sealed class SentencesViewModel : LearnerModeViewModel
     {
         private bool isLoading;
-        private IEnumerable<Sentence> sentences;
+        private ObservableCollection<Sentence> sentences;
 
         public bool IsLoading
         {
@@ -29,7 +30,7 @@ namespace MandarinLearner.ViewModel
         public bool IsLibraryEmpty => !IsLoading && (sentences == null || !sentences.Any());
 
 
-        public IEnumerable<Sentence> Sentences
+        public ObservableCollection<Sentence> Sentences
         {
             get { return sentences; }
             set
@@ -51,7 +52,7 @@ namespace MandarinLearner.ViewModel
             {
                 Task<IEnumerable<Sentence>> loadedSentences = SentenceRepository.GetAllSentencesAsync();
                 IsLoading = true;
-                Sentences = await loadedSentences;
+                Sentences = new ObservableCollection<Sentence>((await loadedSentences).ToList());
                 IsLoading = false;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,8 +14,11 @@ namespace MandarinLearner.ViewModel
     public sealed class LibraryViewModel : LearnerModeViewModel
     {
         private bool isLoading;
-        private IEnumerable<Phrase> phrases;
+        private ObservableCollection<Phrase> displayablePhrases;
+        private ObservableCollection<Phrase> availablePhrases;
+
         private HskPhrase selectedPhrase;
+        private string phraseSearchTerm;
 
         public bool IsLoading
         {
@@ -27,18 +31,19 @@ namespace MandarinLearner.ViewModel
             }
         }
 
-        public bool IsLibraryEmpty => !IsLoading && (phrases == null || !phrases.Any());
+        public bool IsLibraryEmpty => !IsLoading && (displayablePhrases == null || !displayablePhrases.Any());
 
 
-        public IEnumerable<Phrase> Phrases
+        public ObservableCollection<Phrase> DisplayablePhrases
         {
-            get { return phrases; }
+            get { return displayablePhrases; }
             set
             {
-                phrases = value;
+                displayablePhrases = value;
                 OnPropertyChanged();
             }
         }
+
 
         public HskPhrase SelectedPhrase
         {
@@ -48,6 +53,31 @@ namespace MandarinLearner.ViewModel
                 selectedPhrase = value;
                 OnPropertyChanged();
             }
+        }
+
+        public string PhraseSearchTerm
+        {
+            get { return phraseSearchTerm; }
+            set
+            {
+                phraseSearchTerm = value;
+                OnPropertyChanged();
+                FilterPhrases();
+            }
+        }
+
+        private void FilterPhrases()
+        {
+            ItemFilter<Phrase>.Filter(availablePhrases, DisplayablePhrases, ShouldDisplayPhrase);
+        }
+
+        private bool ShouldDisplayPhrase(Phrase phrase)
+        {
+            string[] searchTerms = PhraseSearchTerm.Split(' ');
+            string[] pinyinParts = phrase.Pinyin.Split(' ');
+            string[] englishParts = phrase.English.Split(' ');
+
+            return searchTerms.All(searchTerm => pinyinParts.Any(p => p.StartsWith(searchTerm)) || englishParts.Any(p => p.StartsWith(searchTerm)));
         }
 
         public ICommand LoadedCommand => new RelayCommand(InitializeAsync);
@@ -60,9 +90,13 @@ namespace MandarinLearner.ViewModel
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
-                Task<IEnumerable<Phrase>> loadedPhrases = PhraseRepository.GetAllPhrasesFromLevelAsync(6);
                 IsLoading = true;
-                Phrases = await loadedPhrases;
+
+                List<Phrase> loadedPhrases = (await PhraseRepository.GetAllPhrasesFromLevelAsync(6)).ToList();
+
+                availablePhrases = new ObservableCollection<Phrase>(loadedPhrases);
+                DisplayablePhrases = new ObservableCollection<Phrase>(loadedPhrases);
+
                 IsLoading = false;
             }
         }

@@ -5,7 +5,7 @@
         xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:MandarinLearner.Converters"
-        Title="Mandarin Learner" Height="600" Width="800"
+        Title="Add Sentence" Height="600" Width="800"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <viewModel:AddSentenceViewModel />
@@ -82,6 +82,10 @@
 
                 <Button Margin="20,0,0,0" Command="{Binding Path=FindPhrasesCommand}">
                     Auto Find
+                </Button>
+
+                <Button Margin="20,0,0,0" Command="{Binding Path=ClearSelectedPhrasesCommand}">
+                    Clear
                 </Button>
             </StackPanel>
 

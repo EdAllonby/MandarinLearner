@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using MandarinLearner.Model.Properties;
 
 namespace MandarinLearner.Model
@@ -32,11 +33,32 @@ namespace MandarinLearner.Model
         {
             var pinyin = new StringBuilder();
 
-            foreach (char hanziCharacter in hanzi)
+            foreach (char character in hanzi)
             {
+                if (IsEnglish(character))
+                {
+                    pinyin.Append(character);
+                    continue;
+                }
+
+                switch (character)
+                {
+                    case '，':
+                        pinyin.Append(',');
+                        continue;
+                    case '。':
+                        pinyin.Append('.');
+                        continue;
+                    case '！':
+                        pinyin.Append('!');
+                        continue;
+                    case '？':
+                        pinyin.Append('?');
+                        continue;
+                }
                 IEnumerable<string> possiblePinyinCharacters;
 
-                if (!pinyinIndexedByUnicode.TryGetValue(hanziCharacter, out possiblePinyinCharacters))
+                if (!pinyinIndexedByUnicode.TryGetValue(character, out possiblePinyinCharacters))
                 {
                     continue;
                 }
@@ -45,6 +67,12 @@ namespace MandarinLearner.Model
             }
 
             return pinyin.ToString().Trim();
+        }
+
+        private static bool IsEnglish(char c)
+        {
+            // ASCII Range is up to 128
+            return c < 128;
         }
 
         private static IEnumerable<string> SplitToLines(string input)

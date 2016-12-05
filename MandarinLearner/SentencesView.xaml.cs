@@ -3,9 +3,9 @@
 namespace MandarinLearner
 {
     /// <summary>
-    /// Interaction logic for LibraryView.xaml
+    /// Interaction logic for SentencesView.xaml
     /// </summary>
-    public partial class SentencesView : UserControl
+    public partial class SentencesView
     {
         public SentencesView()
         {

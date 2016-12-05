@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddSentenceViewModel.cs" />
+    <Compile Include="ItemFilter.cs" />
     <Compile Include="LearnerModeViewModel.cs" />
     <Compile Include="LearnerViewModel.cs" />
     <Compile Include="SentencesViewModel.cs" />

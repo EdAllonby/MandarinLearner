@@ -143,6 +143,23 @@ namespace MandarinLearner.ViewModel
 
         public ICommand FindMeasureWordsCommand => new RelayCommand(FindMeasureWords, IsSentenceComplete);
 
+        public ICommand ClearSelectedPhrasesCommand => new RelayCommand(ClearSelectedPhrases, CanClearSelectedPhrases);
+
+        private bool CanClearSelectedPhrases()
+        {
+            return (availablePhrases?.Any(x => x.IsSelected)).GetValueOrDefault();
+        }
+
+        private void ClearSelectedPhrases()
+        {
+            foreach (SelectableItem<Phrase> availablePhrase in availablePhrases)
+            {
+                availablePhrase.IsSelected = false;
+            }
+
+            ShowSelectedPhrases = false;
+        }
+
         private void FindPhrases()
         {
             foreach (SelectableItem<Phrase> availablePhrase in availablePhrases)
@@ -179,18 +196,18 @@ namespace MandarinLearner.ViewModel
             SelectableItemFilter<MeasureWord>.Filter(availableMeasureWords, DisplayableMeasureWords, ShowSelectedMeasureWords, ShouldDisplayMeasureWord);
         }
 
-        private bool ShouldDisplayPhrase(Phrase phrase)
+        private bool ShouldDisplayPhrase(SelectableItem<Phrase> phrase)
         {
             string[] searchTerms = PhraseSearchTerm.Split(' ');
-            string[] phraseParts = phrase.Pinyin.Split(' ');
+            string[] phraseParts = phrase.Item.Pinyin.Split(' ');
 
             return searchTerms.All(searchTerm => phraseParts.Any(phrasePart => phrasePart.StartsWith(searchTerm)));
         }
 
-        private bool ShouldDisplayMeasureWord(MeasureWord measureWord)
+        private bool ShouldDisplayMeasureWord(SelectableItem<MeasureWord> measureWord)
         {
             string[] searchTerms = MeasureWordSearchTerm.Split(' ');
-            string[] measureWordPart = measureWord.Pinyin.Split(' ');
+            string[] measureWordPart = measureWord.Item.Pinyin.Split(' ');
 
             return searchTerms.All(searchTerm => measureWordPart.Any(phrasePart => phrasePart.StartsWith(searchTerm)));
         }
