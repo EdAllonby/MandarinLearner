@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using MandarinLearner.Model;
+using MandarinLearner.ViewModel.Filter;
 using MandarinLearner.ViewModel.RelayCommands;
 
 namespace MandarinLearner.ViewModel
@@ -11,39 +10,37 @@ namespace MandarinLearner.ViewModel
     public sealed class AddSentenceViewModel : ViewModel
     {
         private readonly PinyinGenerator pinyinGenerator = new PinyinGenerator();
+
         private bool autoCompletePinyin = true;
-
-        private ObservableCollection<SelectableItem<MeasureWord>> availableMeasureWords;
-        private ObservableCollection<SelectableItem<Phrase>> availablePhrases;
-        private ObservableCollection<SelectableItem<MeasureWord>> displayableMeasureWords;
-        private ObservableCollection<SelectableItem<Phrase>> displayablePhrases;
-
         private string measureWordSearchTerm = string.Empty;
         private string newSentenceEnglish = string.Empty;
         private string newSentenceHanzi = string.Empty;
         private string newSentencePinyin = string.Empty;
         private string phraseSearchTerm = string.Empty;
+
+        private SearcheableObservableCollection<SelectableItem<MeasureWord>> searcheableMeasureWords;
+        private SearcheableObservableCollection<SelectableItem<Phrase>> searcheablePhrases;
         private bool showSelectedMeasureWords;
         private bool showSelectedPhrases;
 
         public ICommand LoadedCommand => new RelayCommand(LoadAsync);
 
-        public ObservableCollection<SelectableItem<Phrase>> DisplayablePhrases
+        public SearcheableObservableCollection<SelectableItem<Phrase>> SearcheablePhrases
         {
-            get { return displayablePhrases; }
+            get { return searcheablePhrases; }
             set
             {
-                displayablePhrases = value;
+                searcheablePhrases = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<SelectableItem<MeasureWord>> DisplayableMeasureWords
+        public SearcheableObservableCollection<SelectableItem<MeasureWord>> SearcheableMeasureWords
         {
-            get { return displayableMeasureWords; }
+            get { return searcheableMeasureWords; }
             set
             {
-                displayableMeasureWords = value;
+                searcheableMeasureWords = value;
                 OnPropertyChanged();
             }
         }
@@ -147,53 +144,51 @@ namespace MandarinLearner.ViewModel
 
         private bool CanClearSelectedPhrases()
         {
-            return (availablePhrases?.Any(x => x.IsSelected)).GetValueOrDefault();
+            return (SearcheablePhrases?.AnyAvailable(x => x.IsSelected)).GetValueOrDefault();
         }
 
         private void ClearSelectedPhrases()
         {
-            foreach (SelectableItem<Phrase> availablePhrase in availablePhrases)
-            {
-                availablePhrase.IsSelected = false;
-            }
-
+            SearcheablePhrases.ApplyToAll(phrase => phrase.IsSelected = false);
             ShowSelectedPhrases = false;
         }
 
         private void FindPhrases()
         {
-            foreach (SelectableItem<Phrase> availablePhrase in availablePhrases)
-            {
-                if (NewSentenceHanzi.Contains(availablePhrase.Item.Hanzi))
-                {
-                    availablePhrase.IsSelected = true;
-                }
-            }
-
+            SearcheablePhrases.ApplyToAll(FindHanziFromPhrase);
             FilterPhrases();
+        }
+
+        private void FindHanziFromPhrase(SelectableItem<Phrase> availablePhrase)
+        {
+            if (NewSentenceHanzi.Contains(availablePhrase.Item.Hanzi))
+            {
+                availablePhrase.IsSelected = true;
+            }
         }
 
         private void FindMeasureWords()
         {
-            foreach (SelectableItem<MeasureWord> availableMeasureWord in availableMeasureWords)
-            {
-                if (NewSentenceHanzi.Contains(availableMeasureWord.Item.Hanzi))
-                {
-                    availableMeasureWord.IsSelected = true;
-                }
-            }
-
+            SearcheableMeasureWords.ApplyToAll(FindHanziFromMeasureWord);
             FilterMeasureWords();
+        }
+
+        private void FindHanziFromMeasureWord(SelectableItem<MeasureWord> availableMeasureWord)
+        {
+            if (NewSentenceHanzi.Contains(availableMeasureWord.Item.Hanzi))
+            {
+                availableMeasureWord.IsSelected = true;
+            }
         }
 
         private void FilterPhrases()
         {
-            SelectableItemFilter<Phrase>.Filter(availablePhrases, DisplayablePhrases, ShowSelectedPhrases, ShouldDisplayPhrase);
+            SearcheablePhrases.Filter(new SelectableItemFilter<Phrase>(ShowSelectedPhrases, ShouldDisplayPhrase));
         }
 
         private void FilterMeasureWords()
         {
-            SelectableItemFilter<MeasureWord>.Filter(availableMeasureWords, DisplayableMeasureWords, ShowSelectedMeasureWords, ShouldDisplayMeasureWord);
+            SearcheableMeasureWords.Filter(new SelectableItemFilter<MeasureWord>(ShowSelectedMeasureWords, ShouldDisplayMeasureWord));
         }
 
         private bool ShouldDisplayPhrase(SelectableItem<Phrase> phrase)
@@ -219,41 +214,21 @@ namespace MandarinLearner.ViewModel
 
         private void AddSentence()
         {
-            IEnumerable<Phrase> selectedPhrases = FindSelectedItems(availablePhrases);
-            IEnumerable<MeasureWord> selectedMeasureWords = FindSelectedItems(availableMeasureWords);
+            IEnumerable<Phrase> selectedPhrases = SearcheablePhrases.FindAvailable(item => item.IsSelected).Select(item => item.Item);
+            IEnumerable<MeasureWord> selectedMeasureWords = SearcheableMeasureWords.FindAvailable(item => item.IsSelected).Select(item => item.Item);
 
             SentenceMaker.AddSentence(NewSentenceEnglish, NewSentencePinyin, NewSentenceHanzi, selectedPhrases.ToList(), selectedMeasureWords.ToList());
         }
 
-        private static IEnumerable<T> FindSelectedItems<T>(IEnumerable<SelectableItem<T>> selectableItems)
-        {
-            return selectableItems.Where(item => item.IsSelected).Select(item => item.Item);
-        }
-
         private async void LoadAsync()
         {
-            await LoadPhrasesAsync();
-            await LoadMeasureWordsAsync();
-        }
-
-        private async Task LoadPhrasesAsync()
-        {
             IEnumerable<Phrase> loadedPhrases = await PhraseRepository.GetAllPhrasesAsync();
+            IEnumerable<SelectableItem<Phrase>> phrases = loadedPhrases.Select(loadedPhrase => new SelectableItem<Phrase>(loadedPhrase));
+            SearcheablePhrases = new SearcheableObservableCollection<SelectableItem<Phrase>>(phrases);
 
-            List<SelectableItem<Phrase>> phrases = loadedPhrases.Select(loadedPhrase => new SelectableItem<Phrase>(loadedPhrase)).ToList();
-
-            availablePhrases = new ObservableCollection<SelectableItem<Phrase>>(phrases);
-            DisplayablePhrases = new ObservableCollection<SelectableItem<Phrase>>(phrases);
-        }
-
-        private async Task LoadMeasureWordsAsync()
-        {
             IEnumerable<MeasureWord> loadedMeasureWords = await MeasureWordRepository.GetAllMeasureWordsAsync();
-
-            List<SelectableItem<MeasureWord>> measureWords = loadedMeasureWords.Select(loadedMeasureWord => new SelectableItem<MeasureWord>(loadedMeasureWord)).ToList();
-
-            availableMeasureWords = new ObservableCollection<SelectableItem<MeasureWord>>(measureWords);
-            DisplayableMeasureWords = new ObservableCollection<SelectableItem<MeasureWord>>(measureWords);
+            IEnumerable<SelectableItem<MeasureWord>> measureWords = loadedMeasureWords.Select(loadedMeasureWord => new SelectableItem<MeasureWord>(loadedMeasureWord));
+            SearcheableMeasureWords = new SearcheableObservableCollection<SelectableItem<MeasureWord>>(measureWords);
         }
     }
 }

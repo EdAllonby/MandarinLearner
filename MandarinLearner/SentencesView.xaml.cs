@@ -1,6 +1,4 @@
-﻿using System.Windows.Controls;
-
-namespace MandarinLearner
+﻿namespace MandarinLearner
 {
     /// <summary>
     /// Interaction logic for SentencesView.xaml

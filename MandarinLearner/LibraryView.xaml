@@ -52,7 +52,7 @@
                      Text="{Binding PhraseSearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
 
-        <ListBox Grid.Row="1" ItemsSource="{Binding DisplayablePhrases}" Margin="0 8 0 0"
+        <ListBox Grid.Row="1" ItemsSource="{Binding SearcheablePhrases.DisplayableItems}" Margin="0 8 0 0"
                  SelectedItem="{Binding Path=SelectedPhrase, Mode=TwoWay}">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -97,7 +97,7 @@
 
         <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch"
                       VerticalContentAlignment="Center" />
-        
+
         <StackPanel Grid.Row="3" Orientation="Vertical" Style="{x:Null}"
                     Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, Path=SelectedPhrase}">
             <TextBox HorizontalAlignment="Center" FontSize="30" Text="{Binding SelectedPhrase.Hanzi}"

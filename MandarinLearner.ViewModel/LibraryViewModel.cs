@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using MandarinLearner.Model;
+using MandarinLearner.ViewModel.Filter;
 using MandarinLearner.ViewModel.RelayCommands;
 using MaterialDesignThemes.Wpf;
 
@@ -13,12 +12,17 @@ namespace MandarinLearner.ViewModel
 {
     public sealed class LibraryViewModel : LearnerModeViewModel
     {
+        private readonly IItemFilter<Phrase> phraseFilter;
         private bool isLoading;
-        private ObservableCollection<Phrase> displayablePhrases;
-        private ObservableCollection<Phrase> availablePhrases;
-
-        private HskPhrase selectedPhrase;
         private string phraseSearchTerm;
+
+        private SearcheableObservableCollection<Phrase> searcheablePhrases;
+        private HskPhrase selectedPhrase;
+
+        public LibraryViewModel()
+        {
+            phraseFilter = new ItemFilter<Phrase>(DisplayAny);
+        }
 
         public bool IsLoading
         {
@@ -31,18 +35,7 @@ namespace MandarinLearner.ViewModel
             }
         }
 
-        public bool IsLibraryEmpty => !IsLoading && (displayablePhrases == null || !displayablePhrases.Any());
-
-
-        public ObservableCollection<Phrase> DisplayablePhrases
-        {
-            get { return displayablePhrases; }
-            set
-            {
-                displayablePhrases = value;
-                OnPropertyChanged();
-            }
-        }
+        public bool IsLibraryEmpty => !IsLoading && (searcheablePhrases?.DisplayableItems == null || !searcheablePhrases.DisplayableItems.Any());
 
 
         public HskPhrase SelectedPhrase
@@ -62,22 +55,18 @@ namespace MandarinLearner.ViewModel
             {
                 phraseSearchTerm = value;
                 OnPropertyChanged();
-                FilterPhrases();
+                SearcheablePhrases.Filter(phraseFilter);
             }
         }
 
-        private void FilterPhrases()
+        public SearcheableObservableCollection<Phrase> SearcheablePhrases
         {
-            ItemFilter<Phrase>.Filter(availablePhrases, DisplayablePhrases, ShouldDisplayPhrase);
-        }
-
-        private bool ShouldDisplayPhrase(Phrase phrase)
-        {
-            string[] searchTerms = PhraseSearchTerm.Split(' ');
-            string[] pinyinParts = phrase.Pinyin.Split(' ');
-            string[] englishParts = phrase.English.Split(' ');
-
-            return searchTerms.All(searchTerm => pinyinParts.Any(p => p.StartsWith(searchTerm)) || englishParts.Any(p => p.StartsWith(searchTerm)));
+            get { return searcheablePhrases; }
+            set
+            {
+                searcheablePhrases = value;
+                OnPropertyChanged();
+            }
         }
 
         public ICommand LoadedCommand => new RelayCommand(InitializeAsync);
@@ -86,17 +75,23 @@ namespace MandarinLearner.ViewModel
 
         public override PackIconKind Icon => PackIconKind.Library;
 
+        private bool DisplayAny(Phrase phrase)
+        {
+            string[] searchTerms = PhraseSearchTerm.Split(' ');
+            string[] pinyinParts = phrase.Pinyin.Split(' ');
+            string[] englishParts = phrase.English.Split(' ');
+            string[] hanziParts = phrase.Hanzi.Split(' ');
+
+            return searchTerms.All(searchTerm => pinyinParts.Any(p => p.StartsWith(searchTerm)) || englishParts.Any(p => p.StartsWith(searchTerm)) || hanziParts.Any(p => p.StartsWith(searchTerm)));
+        }
+
         private async void InitializeAsync()
         {
             if (!DesignerProperties.GetIsInDesignMode(new DependencyObject()))
             {
                 IsLoading = true;
-
                 List<Phrase> loadedPhrases = (await PhraseRepository.GetAllPhrasesFromLevelAsync(6)).ToList();
-
-                availablePhrases = new ObservableCollection<Phrase>(loadedPhrases);
-                DisplayablePhrases = new ObservableCollection<Phrase>(loadedPhrases);
-
+                SearcheablePhrases = new SearcheableObservableCollection<Phrase>(loadedPhrases);
                 IsLoading = false;
             }
         }

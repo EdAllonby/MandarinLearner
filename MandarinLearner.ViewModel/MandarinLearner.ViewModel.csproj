@@ -47,9 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddSentenceViewModel.cs" />
-    <Compile Include="ItemFilter.cs" />
+    <Compile Include="Filter\IItemFilter.cs" />
+    <Compile Include="Filter\ItemFilter.cs" />
     <Compile Include="LearnerModeViewModel.cs" />
     <Compile Include="LearnerViewModel.cs" />
+    <Compile Include="Filter\SearcheableObservableCollection.cs" />
     <Compile Include="SentencesViewModel.cs" />
     <Compile Include="LibraryViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
@@ -60,7 +62,7 @@
     </Compile>
     <Compile Include="RelayCommands\RelayCommand.cs" />
     <Compile Include="SelectableItem.cs" />
-    <Compile Include="SelectableItemFilter.cs" />
+    <Compile Include="Filter\SelectableItemFilter.cs" />
     <Compile Include="ViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

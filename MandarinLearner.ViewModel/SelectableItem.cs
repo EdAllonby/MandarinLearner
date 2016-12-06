@@ -1,5 +1,9 @@
 ﻿namespace MandarinLearner.ViewModel
 {
+    /// <summary>
+    /// Makes an item selectable in a view model.
+    /// </summary>
+    /// <typeparam name="TItem">The item to take selectable.</typeparam>
     public class SelectableItem<TItem> : ViewModel
     {
         private bool isSelected;

@@ -4,13 +4,15 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using log4net;
 using MandarinLearner.Model.Properties;
 
 namespace MandarinLearner.Model
 {
     public sealed class PinyinGenerator
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(PinyinGenerator));
+
         private readonly Dictionary<char, IEnumerable<string>> pinyinIndexedByUnicode = new Dictionary<char, IEnumerable<string>>();
 
         public PinyinGenerator()
@@ -60,6 +62,7 @@ namespace MandarinLearner.Model
 
                 if (!pinyinIndexedByUnicode.TryGetValue(character, out possiblePinyinCharacters))
                 {
+                    Log.WarnFormat("Could not find pinyin for {0}", (int) character);
                     continue;
                 }
 
