@@ -5,6 +5,7 @@
         xmlns:mandarinLearner="clr-namespace:MandarinLearner"
         xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:Interactions="http://schemas.microsoft.com/xaml/behaviors"
         Title="Mandarin Learner" Height="1000" Width="1200"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
@@ -23,11 +24,11 @@
         </DataTemplate>
     </Window.Resources>
 
-    <intr:Interaction.Triggers>
-        <intr:EventTrigger EventName="Loaded">
-            <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </intr:EventTrigger>
-    </intr:Interaction.Triggers>
+    <Interactions:Interaction.Triggers>
+        <Interactions:EventTrigger EventName="Loaded">
+            <Interactions:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </Interactions:EventTrigger>
+    </Interactions:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200px" />

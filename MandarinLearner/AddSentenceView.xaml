@@ -5,6 +5,7 @@
         xmlns:intr="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:converters="clr-namespace:MandarinLearner.Converters"
+        xmlns:Interactions="http://schemas.microsoft.com/xaml/behaviors"
         Title="Add Sentence" Height="600" Width="800"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
@@ -15,11 +16,11 @@
         <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
     </Window.Resources>
 
-    <intr:Interaction.Triggers>
-        <intr:EventTrigger EventName="Loaded">
-            <intr:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </intr:EventTrigger>
-    </intr:Interaction.Triggers>
+    <Interactions:Interaction.Triggers>
+        <Interactions:EventTrigger EventName="Loaded">
+            <Interactions:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </Interactions:EventTrigger>
+    </Interactions:Interaction.Triggers>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />

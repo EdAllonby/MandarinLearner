@@ -9,6 +9,7 @@
              xmlns:viewModel="clr-namespace:MandarinLearner.ViewModel;assembly=MandarinLearner.ViewModel"
              xmlns:converters="clr-namespace:MandarinLearner.Converters"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Interactions="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
@@ -18,11 +19,11 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter" />
     </UserControl.Resources>
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
+    <Interactions:Interaction.Triggers>
+        <Interactions:EventTrigger EventName="Loaded">
+            <Interactions:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </Interactions:EventTrigger>
+    </Interactions:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
